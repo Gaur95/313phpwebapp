@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+  web:
+    container_name: server
+    image: php:apache
+    volumes:
+      - ./apache/:/var/www/html/
+    ports:
+      - 1122:80
+  php-enviroment:
+     container_name: phpak
+     image: phpkk
+     build: .
+     volumes:
+         - ./php/:/var/www/html/
+     environment:
+        MYSQL_ROOT_PASSWORD: q1234
+        MYSQL_DATABASE: login
+        MYSQL_USER: akash
+        MYSQL_PASSWORD: q1234
+     ports:
+         - 1234:80
+     
+  datadb:
+    container_name: db
+    image: mysql
+    volumes:
+     - ./sql:/docker-entrypoint-initdb.d/
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: q1234
+        MYSQL_DATABASE: login
+        MYSQL_USER: akash
+        MYSQL_PASSWORD: q1234
+    ports:
+        - "3344:3306"
